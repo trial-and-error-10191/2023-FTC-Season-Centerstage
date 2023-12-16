@@ -113,3 +113,5 @@ public class ConceptScanServo extends LinearOpMode {
         telemetry.update();
     }
 }
+//I don't know what to do but I have no choice so my plan is to figure out how to code this crap to wait until a button is pressed
+/*before it does anything*/
