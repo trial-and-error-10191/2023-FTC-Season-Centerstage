@@ -105,6 +105,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        max = 0.7;
+
         waitForStart();
         runtime.reset();
 
