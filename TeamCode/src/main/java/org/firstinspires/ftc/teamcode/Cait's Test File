@@ -105,8 +105,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        max = 0.7;
-
         waitForStart();
         runtime.reset();
 
@@ -132,12 +130,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
 
-            if (max > 1.0) {
+            if (max > 0.7) {   // changed from 1.0 to 0.7 to lower sensitivity
                 leftFrontPower  /= max;
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
-            }
+
 
             // This is test code:
             //
