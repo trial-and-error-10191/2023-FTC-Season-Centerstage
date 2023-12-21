@@ -65,6 +65,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
 //@Disabled
+// This is a test update from Andriod Studio using Git for GitHub
+
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -102,6 +104,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        max = 0.7;
 
         waitForStart();
         runtime.reset();
