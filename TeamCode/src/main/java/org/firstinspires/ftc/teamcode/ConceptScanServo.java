@@ -70,6 +70,7 @@ public class ConceptScanServo extends LinearOpMode {
         // Change the text in quotes to match any servo name on your robot.
         servo = hardwareMap.get(Servo.class, "left_hand");
 
+
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
@@ -97,6 +98,9 @@ public class ConceptScanServo extends LinearOpMode {
                 }
             }
 
+            if(gamepad1.a) {
+                position = MAX_POS;
+            }
             // Display the current value
             telemetry.addData("Servo Position", "%5.2f", position);
             telemetry.addData(">", "Press Stop to end test." );
@@ -111,7 +115,6 @@ public class ConceptScanServo extends LinearOpMode {
         // Signal done;
         telemetry.addData(">", "Done");
         telemetry.update();
+
     }
 }
-//I don't know what to do but I have no choice so my plan is to figure out how to code this crap to wait until a button is pressed
-/*before it does anything*/
