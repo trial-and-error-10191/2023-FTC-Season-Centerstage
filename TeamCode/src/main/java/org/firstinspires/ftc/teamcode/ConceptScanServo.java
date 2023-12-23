@@ -101,6 +101,9 @@ public class ConceptScanServo extends LinearOpMode {
             if(gamepad1.a) {
                 position = MAX_POS;
             }
+            if(gamepad1.b) {
+                position = MIN_POS;
+            }
             // Display the current value
             telemetry.addData("Servo Position", "%5.2f", position);
             telemetry.addData(">", "Press Stop to end test." );
