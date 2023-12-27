@@ -114,19 +114,19 @@ public class Sensitivity extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            if (gamepad1.a) {
-                sensitivity -= 0.0001;
-                if (sensitivity <= 0.02) {
-                    sensitivity = 0.02;
-                }
-            }
-
-            if (gamepad1.y) {
-                sensitivity += 0.0001;
-                if (sensitivity >= 3.0) {
-                    sensitivity = 3.0;
-                }
-            }
+//            if (gamepad1.a) {
+//                sensitivity -= 0.0001;
+//                if (sensitivity <= 0.02) {
+//                    sensitivity = 0.02;
+//                }
+//            }
+//
+//            if (gamepad1.y) {
+//                sensitivity += 0.0001;
+//                if (sensitivity >= 3.0) {
+//                    sensitivity = 3.0;
+//                }
+//            }
 
             double axial = sensitivity * (-gamepad1.left_stick_y); // Note: pushing stick forward gives negative value
             double lateral = sensitivity * gamepad1.left_stick_x;
@@ -145,7 +145,7 @@ public class Sensitivity extends LinearOpMode {
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
 
-            if (max > 1.0) {   // changed from 1.0 to 0.7 to lower sensitivity
+            if (max > 1.0) {
                 leftFrontPower /= max;
                 rightFrontPower /= max;
                 leftBackPower /= max;
@@ -178,7 +178,7 @@ public class Sensitivity extends LinearOpMode {
 
                 // Show the elapsed game time and wheel power.
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("Sensitivity: ", "%4.2f", sensitivity);
+                //telemetry.addData("Sensitivity: ", "%4.2f", sensitivity);
                 telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
                 telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
                 telemetry.update();
