@@ -89,7 +89,9 @@ public class Sensitivity extends LinearOpMode {
 
     // Define class members
     Servo servo;
+    Servo servo_2;
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    double position_2 = (MAX_POS - MIN_POS) / 2;
     boolean rampUp = true;
 
     @Override
@@ -104,6 +106,7 @@ public class Sensitivity extends LinearOpMode {
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
         servo = hardwareMap.get(Servo.class, "left_hand");
+        servo_2 = hardwareMap.get(Servo.class, "right_hand");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -224,6 +227,12 @@ public class Sensitivity extends LinearOpMode {
                         if(gamepad1.b) {
                             position = MIN_POS;
                         }
+                        if (gamepad1.x) {
+                            position_2 = MAX_POS;
+                        }
+                        if (gamepad1.y) {
+                            position_2 = MIN_POS;
+                        }
                         // Display the current value
                         telemetry.addData("Servo Position", "%5.2f", position);
                         telemetry.addData(">", "Press Stop to end test." );
@@ -231,6 +240,7 @@ public class Sensitivity extends LinearOpMode {
 
                         // Set the servo to the new position and pause;
                         servo.setPosition(position);
+                        servo_2.setPosition(position_2);
                         sleep(CYCLE_MS);
                         idle();
 
