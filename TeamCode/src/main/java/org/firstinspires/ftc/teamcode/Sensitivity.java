@@ -87,6 +87,11 @@ public class Sensitivity extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     double sensitivity = 1.0;
 
+    // Define class members
+    Servo servo;
+    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    boolean rampUp = true;
+
     @Override
     public void runOpMode() {
 
@@ -96,6 +101,9 @@ public class Sensitivity extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        // Connect to servo (Assume Robot Left Hand)
+        // Change the text in quotes to match any servo name on your robot.
+        servo = hardwareMap.get(Servo.class, "left_hand");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -208,44 +216,9 @@ public class Sensitivity extends LinearOpMode {
              * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
              */
 
-                // Define class members
-                Servo servo;
-                double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
-                boolean rampUp = true;
-
-                    // Connect to servo (Assume Robot Left Hand)
-                    // Change the text in quotes to match any servo name on your robot.
-                    servo = hardwareMap.get(Servo.class, "left_hand");
-
-
-                    // Wait for the start button
-                    telemetry.addData(">", "Press Start to scan Servo." );
-                    telemetry.update();
-                    waitForStart();
-
-
                     // Scan servo till stop pressed.
-                    while(opModeIsActive()){
 
-                        // slew the servo, according to the rampUp (direction) variable.
-            /*if (rampUp) {
-                // Keep stepping up until we hit the max value.
-                position += INCREMENT ;
-                if (position >= MAX_POS ) {
-                    position = MAX_POS;
-                    rampUp = !rampUp;   // Switch ramp direction
-                }
-            }
-            else {
-                // Keep stepping down until we hit the min value.
-                position -= INCREMENT ;
-                if (position <= MIN_POS ) {
-                    position = MIN_POS;
-                    rampUp = !rampUp;  // Switch ramp direction*
-                }
-            }*/
-
-                        if(gamepad1.a) {
+                         if(gamepad1.a) {
                             position = MAX_POS;
                         }
                         if(gamepad1.b) {
@@ -260,7 +233,6 @@ public class Sensitivity extends LinearOpMode {
                         servo.setPosition(position);
                         sleep(CYCLE_MS);
                         idle();
-                    }
 
                     // Signal done;
                     telemetry.addData(">", "Done");
