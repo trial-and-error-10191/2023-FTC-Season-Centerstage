@@ -114,6 +114,7 @@ public class ConceptScanServo extends LinearOpMode {
             }
             // Display the current value
             telemetry.addData("Servo Position", "%5.2f", position);
+            telemetry.addData("Servo Position", "%5.2f", position_2);
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 
