@@ -72,12 +72,10 @@ public class ConceptScanServo extends LinearOpMode {
         servo = hardwareMap.get(Servo.class, "left_hand");
         servo_2 = hardwareMap.get(Servo.class, "right_hand");
 
-
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
         waitForStart();
-
 
         // Scan servo till stop pressed.
         while(opModeIsActive()){
@@ -128,6 +126,5 @@ public class ConceptScanServo extends LinearOpMode {
         // Signal done;
         telemetry.addData(">", "Done");
         telemetry.update();
-
     }
 }
