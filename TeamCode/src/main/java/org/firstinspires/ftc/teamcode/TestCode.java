@@ -129,13 +129,16 @@ public class TestCode extends LinearOpMode {
         servo.setPosition(MAX_POS);
         servo.setPosition(MIN_POS);
         runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+
+        }
 
         // Step 3: Use back motors and drive forward for 3 seconds
         leftBackDrive.setPower(FORWARD_SPEED);
         rightBackDrive.setPower(FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
         // Step 3b: Stop motors (back)
@@ -149,6 +152,10 @@ public class TestCode extends LinearOpMode {
         // Step 4: Turn servo 2 to min position and then max position
         servo_2.setPosition(MAX_POS);
         servo_2.setPosition(MIN_POS);
-        runtime.reset(); // Code ends here
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 4: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();// Code ends here
+        }
     }
 }
