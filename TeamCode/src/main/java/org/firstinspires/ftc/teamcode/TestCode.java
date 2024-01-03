@@ -95,8 +95,8 @@ public class TestCode extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Send telemetry message to signify robot waiting;
@@ -130,7 +130,8 @@ public class TestCode extends LinearOpMode {
         servo.setPosition(MIN_POS);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-
+            telemetry.addData("Path", "Leg 2: %4.1 S Elapsed", runtime.seconds());
+            telemetry.update();
         }
 
         // Step 3: Use back motors and drive forward for 3 seconds
