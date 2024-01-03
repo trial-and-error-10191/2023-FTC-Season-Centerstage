@@ -27,12 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -55,7 +56,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Robot: Auto Drive By Time", group="Robot")
-@Disabled
+//@Disabled
 public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -64,6 +65,15 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
+    static final double MAX_POS     =  1.0;     // Maximum rotational position
+    static final double MIN_POS     =  0.0;     // Minimum rotational position
+
+    // Define class members
+    Servo servo;
+    Servo servo_2;
+    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    double position_2 = (MAX_POS - MIN_POS) / 2;
+    boolean rampUp = true;
 
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
@@ -90,37 +100,58 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
+        // Step 1:  2 front motors spin for 3 seconds
         leftDrive.setPower(FORWARD_SPEED);
-        rightDrive.setPower(FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        leftDrive.setPower(TURN_SPEED);
-        rightDrive.setPower(-TURN_SPEED);
+        // Step 2:  first servo spin from min to max for 3.0 seconds
+        leftDrive.setPower(0);
+        servo.setPosition(MAX_POS);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        // Step 3:  2 back motors spin for 3 seconds
+        servo.setPosition(MIN_POS);
+        rightDrive.setPower(FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
+        // Step 4:  second servo spin from min to max for 3.0 seconds
+        rightDrive.setPower(0);
+        servo_2.setPosition(MAX_POS);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        /*
         // Step 3:  Drive Backward for 1 Second
         leftDrive.setPower(-FORWARD_SPEED);
         rightDrive.setPower(-FORWARD_SPEED);
+        leftDrive.setPower(TURN_SPEED);
+        rightDrive.setPower(-TURN_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 4:  Stop
+        // Step 5:  Stop
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-
+         */
+        servo_2.setPosition(MIN_POS);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
