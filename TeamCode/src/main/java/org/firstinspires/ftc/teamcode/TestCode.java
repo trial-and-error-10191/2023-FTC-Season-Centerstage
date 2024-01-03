@@ -73,12 +73,10 @@ public class TestCode extends LinearOpMode {
     // Define class members
     Servo servo;
     Servo servo_2;
-    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
-    double  position_2 = (MAX_POS - MIN_POS) / 2;
-    boolean rampUp = true;
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     FORWARD_SPEED = 0.6;
+    static final double     BACKWARD_SPEED = 0.6;
 
     @Override
     public void runOpMode() {
@@ -110,7 +108,7 @@ public class TestCode extends LinearOpMode {
 
         // Step 1:  Drive forward for 3 seconds
         leftFrontDrive.setPower(FORWARD_SPEED);
-        rightFrontDrive.setPower(FORWARD_SPEED);
+        rightFrontDrive.setPower(BACKWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -135,7 +133,7 @@ public class TestCode extends LinearOpMode {
         }
 
         // Step 3: Use back motors and drive forward for 3 seconds
-        leftBackDrive.setPower(FORWARD_SPEED);
+        leftBackDrive.setPower(BACKWARD_SPEED);
         rightBackDrive.setPower(FORWARD_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
