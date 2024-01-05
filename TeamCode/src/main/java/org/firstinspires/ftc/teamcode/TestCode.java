@@ -121,16 +121,17 @@ public class TestCode extends LinearOpMode {
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-        sleep(1000);
+        // sleep(1000);
 
        // Step 2:  Turn servo 1 to min position and then max position
         servo.setPosition(MAX_POS);
-        servo.setPosition(MIN_POS);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 2: %4.1 S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
+        servo.setPosition(MIN_POS);
 
         // Step 3: Use back motors and drive forward for 3 seconds
         leftBackDrive.setPower(BACKWARD_SPEED);
@@ -140,21 +141,28 @@ public class TestCode extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
         // Step 3b: Stop motors (back)
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-        sleep(1000);
+       // sleep(1000);
 
         // Step 4: Turn servo 2 to min position and then max position
         servo_2.setPosition(MAX_POS);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 4: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
         servo_2.setPosition(MIN_POS);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 4: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();// Code ends here
+            telemetry.update();
         }
 
     }
