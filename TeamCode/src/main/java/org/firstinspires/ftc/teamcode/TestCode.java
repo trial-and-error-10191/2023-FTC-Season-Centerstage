@@ -118,7 +118,6 @@ public class TestCode extends LinearOpMode {
         // Step 1b: Stop motors (front)
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         // sleep(1000);
