@@ -150,7 +150,7 @@ public class TestCode extends LinearOpMode {
         telemetry.update();
        // sleep(1000);
 
-        // Step 4: Turn servo 2 to min position and then max position
+        // Step 4: Turn servo 2 to max position
         servo_2.setPosition(MAX_POS);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
@@ -158,9 +158,10 @@ public class TestCode extends LinearOpMode {
             telemetry.update();
         }
 
+        // Step 4b and final: Turn servo 2 to min position
         servo_2.setPosition(MIN_POS);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 5.0)) {
             telemetry.addData("Path", "Leg 4: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
