@@ -156,7 +156,7 @@ public class TestCode extends LinearOpMode {
             telemetry.update();
         }
 
-        // Step 4b and final: Turn servo 2 to min position
+        // Final step: Turn servo 2 to min position
         servo_2.setPosition(MIN_POS);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 5.0)) {
