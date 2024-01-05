@@ -88,6 +88,8 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        servo = hardwareMap.get(Servo.class, "servo");
+        servo_2 = hardwareMap.get(Servo.class, "servo_2");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -161,9 +163,12 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
          */
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Complete");
+            telemetry.update();
+            // sleep(1000);
+        }
         servo_2.setPosition(MIN_POS);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        // sleep(1000);
     }
 }
