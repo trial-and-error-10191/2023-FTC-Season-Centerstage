@@ -136,7 +136,7 @@ public class TestCode extends LinearOpMode {
         leftBackDrive.setPower(BACKWARD_SPEED);
         rightBackDrive.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
