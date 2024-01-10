@@ -142,7 +142,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive.setPower(0);
         servo_2.setPosition(MAX_POS);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 5.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -164,11 +164,12 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         rightDrive.setPower(0);
          */
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 5.0)) {
             telemetry.addData("Path", "Complete");
             telemetry.update();
+        servo_2.setPosition(MIN_POS);
             // sleep(1000);
         }
-        servo_2.setPosition(MIN_POS);
+        //servo_2.setPosition(MIN_POS);
     }
 }
