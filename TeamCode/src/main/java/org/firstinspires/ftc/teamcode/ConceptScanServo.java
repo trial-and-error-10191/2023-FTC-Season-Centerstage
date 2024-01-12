@@ -58,8 +58,7 @@ public class ConceptScanServo extends LinearOpMode {
     static final double MIN_POS     =  0.0;     // Minimum rotational position
 
     // Define class members
-    Servo servo;
-    Servo servo_2;
+    Servo servo, servo_2;
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double  position_2 = (MAX_POS - MIN_POS) / 2;
     boolean rampUp = true;
