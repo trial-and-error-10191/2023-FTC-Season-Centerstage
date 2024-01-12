@@ -148,17 +148,6 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         }
 
         /*
-        // Step 3:  Drive Backward for 3 Seconds
-        leftDrive.setPower(-FORWARD_SPEED);
-        rightDrive.setPower(-FORWARD_SPEED);
-        leftDrive.setPower(TURN_SPEED);
-        rightDrive.setPower(-TURN_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
         // Step 5:  Stop
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -170,6 +159,5 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         servo_2.setPosition(MIN_POS);
             // sleep(1000);
         }
-        //servo_2.setPosition(MIN_POS);
     }
 }
