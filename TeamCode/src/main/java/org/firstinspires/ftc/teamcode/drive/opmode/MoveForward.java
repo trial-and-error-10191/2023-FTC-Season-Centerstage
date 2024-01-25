@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "drive")
-public class LeftBlue extends LinearOpMode {
+public class MoveForward extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -21,14 +21,11 @@ public class LeftBlue extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        Trajectory myTrajectory1 = drive.trajectoryBuilder(new Pose2d(12.00, 72.00, Math.toRadians(270)))
-                .splineTo(new Vector2d(12, 63.19), Math.toRadians(269.53))
+        Trajectory myTrajectory1 = drive.trajectoryBuilder(new Pose2d(-36.00, 72.00, Math.toRadians(270)))
+                .forward(10)
                 .build();
-        Trajectory myTraj2 = drive.trajectoryBuilder(myTrajectory1.end())
-                .splineTo(new Vector2d(11.38, 45.28), Math.toRadians(-90.00))
-                .build();
-        Trajectory myTraj3 = drive.trajectoryBuilder(myTraj2.end())
-                .splineTo(new Vector2d(52.04, 35.45), Math.toRadians(0.00))
+        Trajectory traj2 = drive.trajectoryBuilder(myTrajectory1.end())
+                .strafeLeft(10)
                 .build();
 
 
@@ -39,8 +36,7 @@ public class LeftBlue extends LinearOpMode {
         if(isStopRequested()) return;
 
         drive.followTrajectory(myTrajectory1);
-        drive.followTrajectory(myTraj2);
-        drive.followTrajectory(myTraj3);
+        drive.followTrajectory(traj2);
 
 
 
