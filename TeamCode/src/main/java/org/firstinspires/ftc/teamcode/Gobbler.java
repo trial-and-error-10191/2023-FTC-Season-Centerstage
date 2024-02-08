@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Gobbler {
     public DriveTrain driveTrain;
@@ -17,4 +18,28 @@ public class Gobbler {
         planeHang = new PlaneHang(hwMap);
     }
 
+    public void driveToCenterPos() {
+        moveForward(24, 0.5);
+        Wait(.5);
+    }
+
+    private void moveForward(double distance, double speed) {
+        driveTrain.driveByEncoder(Math.abs(distance), 0.0, 0.0, speed);
+    }
+
+    private void moveBackward(double distance, double speed) {
+        driveTrain.driveByEncoder(-Math.abs(distance), 0.0, 0.0, speed);
+    }
+
+    /**
+     *
+     * @param waitTime
+     */
+    private void Wait(double waitTime) {
+        ElapsedTime waitTimer = new ElapsedTime();
+        waitTimer.reset();
+        while (waitTimer.seconds() < waitTime) {
+            // Doing nothing for the specified amount of time
+        }
+    }
 }

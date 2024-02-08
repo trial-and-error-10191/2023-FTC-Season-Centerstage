@@ -99,7 +99,8 @@ public class Centerstage_AutoBlue extends LinearOpMode {
                 if (xValue > 300 && xValue < 530 && yValue > 110 && yValue < 140) {
                         // center
                         telemetry.addData("position","Center");
-                        gobbler.driveTrain.centerPos();
+                        //gobbler.driveTrain.centerPos();
+                    gobbler.driveToCenterPos();
                         seen = true;
                         
                 }

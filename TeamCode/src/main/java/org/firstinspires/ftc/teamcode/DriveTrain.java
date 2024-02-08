@@ -54,32 +54,22 @@ public class DriveTrain {
 
         BackWDRight = hwMap.get(DistanceSensor.class, "sensor_distance_BackWDRight");
         BackWDLeft = hwMap.get(DistanceSensor.class, "sensor_distance_BackWDLeft");
-
     }
 
 
-    // This function needs an axial, lateral, and yaw input. It uses this input to drive the drive train motors.
-    // The last two variables are for direction switching.
-    public void drive(double axial, double lateral, double yaw, boolean directionButton, ElapsedTime time) {
+    /**
+     *
+     * @param axial - power to move robot forwards/backwards (positive power -> moving forward)
+     * @param lateral - power to move robot left/right (positive power -> moving right)
+     * @param yaw - power to rotate robot (positive power -> rotate clockwise)
+     */
+    public void driveByPower(double axial, double lateral, double yaw) {
 
         BackWDValueRight = BackWDRight.getDistance(DistanceUnit.INCH);
         BackWDValueLeft = BackWDLeft.getDistance(DistanceUnit.INCH);
 
-        // The next two lines calculate the needed variables for the distance sensor.
-        // If BackWDValueLeft is less than BackWDValueRight, then return BackWDValueLeft.
-        // If BackWDValueLeft is greater thank BackWDValueRight, then return BackWDValueRight.
         double effectiveDistance = BackWDValueLeft < BackWDValueRight ? BackWDValueLeft : BackWDValueRight;
         double DistanceEquationValue = slope * effectiveDistance + intercept;
-
-        // Adjustable variable for sensitivity. The default is 0.5. (half power)
-        double sensitivity = 0.5;
-
-        double leftFrontPower = 0;
-        double rightFrontPower = 0;
-        double leftBackPower = 0;
-        double rightBackPower = 0;
-
-        double max;
 
         // Ramps down speed as mailbox approaches backstage.
         if (effectiveDistance <= RampDownStart && effectiveDistance >= RampDownEnd){
@@ -95,8 +85,16 @@ public class DriveTrain {
             }
         }
 
+        double leftFrontPower = 0;
+        double rightFrontPower = 0;
+        double leftBackPower = 0;
+        double rightBackPower = 0;
+
+        // I would like to deal with all of this modifications to the input power at a higher level
+        // Want to avoid the case of drift due to drive sticks not resting completely at center.
+        double deadZone = 0.05;
         // This code calculates the power to give to each motor.
-        if (Math.abs(axial) > 0.05 || Math.abs(lateral) > 0.05 || Math.abs(yaw) > 0.05) {
+        if (Math.abs(axial) > deadZone || Math.abs(lateral) > deadZone || Math.abs(yaw) > deadZone) {
             leftFrontPower = axial + lateral + yaw;
             rightFrontPower = axial - lateral - yaw;
             leftBackPower = axial - lateral + yaw;
@@ -104,10 +102,9 @@ public class DriveTrain {
         }
 
         // All code below this comment normalizes the values so no wheel power exceeds 100%.
-        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
         max = Math.max(max, Math.abs(rightBackPower));
-
         if (max > 1.0) {
             leftFrontPower /= max; // leftFrontPower = leftFrontPower / max;
             rightFrontPower /= max;
@@ -115,53 +112,76 @@ public class DriveTrain {
             rightBackPower /= max;
         }
 
+        // Adjustable variable for sensitivity. The default is 0.5. (half power)
+        double sensitivity = 0.5;
         // Calculates power using sensitivity variable.
         leftFrontPower *= sensitivity;
         leftBackPower *= sensitivity;
         rightFrontPower *= sensitivity;
         rightBackPower *= sensitivity;
 
-        // The next few lines make the direction boolean switch when the button is pressed.
-        // It includes a timer to avoid mistakes.
-        if (time.time() > .25 && !directionToggle && directionButton) {
-            directionToggle = true;
-            time.reset();
-        }
-        else if (time.time() > .25 && directionToggle && directionButton) {
-            directionToggle = false;
-            time.reset();
-        }
+        // Let's try to deal with switching driving controls at a higher level
+
+//        // The next few lines make the direction boolean switch when the button is pressed.
+//        // It includes a timer to avoid mistakes.
+//        if (time.time() > .25 && !directionToggle && directionButton) {
+//            directionToggle = true;
+//            time.reset();
+//        }
+//        else if (time.time() > .25 && directionToggle && directionButton) {
+//            directionToggle = false;
+//            time.reset();
+//        }
 
         // The next eleven lines gives the calculated power to each motor.
-        if (directionToggle) {
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
-        }
+//        if (directionToggle) {
+//            leftFrontDrive.setPower(leftFrontPower);
+//            rightFrontDrive.setPower(rightFrontPower);
+//            leftBackDrive.setPower(leftBackPower);
+//            rightBackDrive.setPower(rightBackPower);
+//        }
+//
+//        else {
+//            leftFrontDrive.setPower(-leftFrontPower);
+//            rightFrontDrive.setPower(-rightFrontPower);
+//            leftBackDrive.setPower(-leftBackPower);
+//            rightBackDrive.setPower(-rightBackPower);
+//        }
 
-        else {
-            leftFrontDrive.setPower(-leftFrontPower);
-            rightFrontDrive.setPower(-rightFrontPower);
-            leftBackDrive.setPower(-leftBackPower);
-            rightBackDrive.setPower(-rightBackPower);
-        }
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
     }
 
-    public void moveForward(int howMuch, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
+    /**
+     *
+     * @param axialDistance - distance in inches to move the robot forwards/backwards (positive value -> moving forward)
+     * @param lateralDistance - distance in inches to move the robot left/right (positive value -> moving right)
+     * @param rotationAmount - amount in degrees to rotate robot (positive value -> clockwise rotation)
+     */
+    public void driveByEncoder(double axialDistance, double lateralDistance, double rotationAmount, double speed) {
         // Fetch Drive positions:
         lfPos = leftFrontDrive.getCurrentPosition();
         rfPos = rightFrontDrive.getCurrentPosition();
         lrPos = leftBackDrive.getCurrentPosition();
         rrPos = rightBackDrive.getCurrentPosition();
 
-        // Calculate new targets based on input:
-        lfPos += (int) (howMuch * clicksPerInch);
-        rfPos += (int) (howMuch * clicksPerInch);
-        lrPos += (int) (howMuch * clicksPerInch);
-        rrPos += (int) (howMuch * clicksPerInch);
+        // Sign is determined by mechanics of Mecanum drive train
+        lfPos += encoderCountsFromLinearDistance(axialDistance);
+        rfPos += encoderCountsFromLinearDistance(axialDistance);
+        lrPos += encoderCountsFromLinearDistance(axialDistance);
+        rrPos += encoderCountsFromLinearDistance(axialDistance);
+
+        lfPos += encoderCountsFromLinearDistance(lateralDistance);
+        rfPos -= encoderCountsFromLinearDistance(lateralDistance);
+        lrPos -= encoderCountsFromLinearDistance(lateralDistance);
+        rrPos += encoderCountsFromLinearDistance(lateralDistance);
+
+        lfPos += encoderCountsFromAngularDistance(rotationAmount);
+        rfPos -= encoderCountsFromAngularDistance(rotationAmount);
+        lrPos += encoderCountsFromAngularDistance(rotationAmount);
+        rrPos -= encoderCountsFromAngularDistance(rotationAmount);
 
         // Move robot to new position:
         leftFrontDrive.setTargetPosition(lfPos);
@@ -180,55 +200,9 @@ public class DriveTrain {
         leftBackDrive.setPower(speed);
         rightBackDrive.setPower(speed);
 
-        // Wait for move to complete:
         while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
                 leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-
-
-        // Stop all motion:
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
-    }
-
-    public void strafe(int howMuch, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
-        // Fetch Drive positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        lfPos += (int) (howMuch * clicksPerInch);
-        rfPos -= (int) (howMuch * clicksPerInch);
-        lrPos -= (int) (howMuch * clicksPerInch);
-        rrPos += (int) (howMuch * clicksPerInch);
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-
-        // Set the drive Drive run modes to prepare for move to encoder:
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
+            // Waiting for movement to complete
         }
 
         // Stop all motion:
@@ -238,283 +212,49 @@ public class DriveTrain {
         rightBackDrive.setPower(0);
     }
 
-    public void moveWholeBlock(String direction, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
-        // Fetch Drive positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        if (direction == "forward") {
-            lfPos += (int) (24 * clicksPerInch);
-            rfPos += (int) (24 * clicksPerInch);
-            lrPos += (int) (24 * clicksPerInch);
-            rrPos += (int) (24 * clicksPerInch);
-        } else if (direction == "backward") {
-            lfPos += (int) (-24 * clicksPerInch);
-            rfPos += (int) (-24 * clicksPerInch);
-            lrPos += (int) (-24 * clicksPerInch);
-            rrPos += (int) (-24 * clicksPerInch);
-        }
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-
-        // Set the drive Drive run modes to prepare for move to encoder:
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-
-
-        // Stop all motion:
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
+    private int encoderCountsFromAngularDistance(double rotationAmount) {
+        return ((int)(rotationAmount * clicksPerDeg));
     }
 
-    public void moveHalfBlock(String direction, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
-        // Fetch Drive positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        if (direction == "forward") {
-            lfPos += (int) (12 * clicksPerInch);
-            rfPos += (int) (12 * clicksPerInch);
-            lrPos += (int) (12 * clicksPerInch);
-            rrPos += (int) (12 * clicksPerInch);
-        } else if (direction == "backward") {
-            lfPos += (int) (-12 * clicksPerInch);
-            rfPos += (int) (-12 * clicksPerInch);
-            lrPos += (int) (-12 * clicksPerInch);
-            rrPos += (int) (-12 * clicksPerInch);
-        }
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-
-        // Set the drive Drive run modes to prepare for move to encoder:
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-
-        // Stop all motion:
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
+    private int encoderCountsFromLinearDistance(double distance) {
+        return ((int)(distance * clicksPerInch));
     }
 
-    public void strafeWholeBlock(String direction, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
-        // Fetch Drive positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        if (direction == "forward") {
-            lfPos += (int) (24 * clicksPerInch);
-            rfPos -= (int) (24 * clicksPerInch);
-            lrPos -= (int) (24 * clicksPerInch);
-            rrPos += (int) (24 * clicksPerInch);
-        } else if (direction == "backward") {
-            lfPos += (int) (-24 * clicksPerInch);
-            rfPos -= (int) (-24 * clicksPerInch);
-            lrPos -= (int) (-24 * clicksPerInch);
-            rrPos += (int) (-24 * clicksPerInch);
-        }
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-
-        // Set the drive Drive run modes to prepare for move to encoder:
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-
-
-        // Stop all motion:
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
-    }
-
-    public void strafeHalfBlock(String direction, double speed) {
-        // "howMuch" is in inches. A negative howMuch moves backward.
-
-        // Fetch Drive positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        if (direction == "forward") {
-            lfPos += (int) (12 * clicksPerInch);
-            rfPos -= (int) (12 * clicksPerInch);
-            lrPos -= (int) (12 * clicksPerInch);
-            rrPos += (int) (12 * clicksPerInch);
-        } else if (direction == "backward") {
-            lfPos += (int) (-12 * clicksPerInch);
-            rfPos -= (int) (-12 * clicksPerInch);
-            lrPos -= (int) (-12 * clicksPerInch);
-            rrPos += (int) (-12 * clicksPerInch);
-        }
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-
-        // Set the drive Drive run modes to prepare for move to encoder:
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-
-
-        // Stop all motion:
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
-    }
-
-    public void turnClockwise(int whatAngle, double speed) {
-        // "whatAngle" is in degrees. A negative whatAngle turns counterclockwise.
-
-        // Fetch motor positions:
-        lfPos = leftFrontDrive.getCurrentPosition();
-        rfPos = rightFrontDrive.getCurrentPosition();
-        lrPos = leftBackDrive.getCurrentPosition();
-        rrPos = rightBackDrive.getCurrentPosition();
-
-        // Calculate new targets based on input:
-        lfPos += whatAngle * clicksPerDeg;
-        rfPos -= whatAngle * clicksPerDeg;
-        lrPos += whatAngle * clicksPerDeg;
-        rrPos -= whatAngle * clicksPerDeg;
-
-        // Move robot to new position:
-        leftFrontDrive.setTargetPosition(lfPos);
-        rightFrontDrive.setTargetPosition(rfPos);
-        leftBackDrive.setTargetPosition(lrPos);
-        rightBackDrive.setTargetPosition(rrPos);
-        leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(speed);
-        leftBackDrive.setPower(speed);
-        rightBackDrive.setPower(speed);
-
-        // Wait for move to complete:
-        while (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() &&
-                leftBackDrive.isBusy() && rightBackDrive.isBusy()) {
-
-        }
-    }
     public double getBackWDValueRight(){
         return BackWDValueRight;
     }
     public double getBackWDValueLeft(){
         return BackWDValueLeft;
     }
-    public boolean getDriveDirection() {
-        return directionToggle;
-    }
+//    public boolean getDriveDirection() {
+//        return directionToggle;
+//    }
 
-    public void rightPos() {
-        moveForward(24, 0.5);
-        Wait(.5);
-        turnClockwise(92, 0.5);
-        Wait(.5);
+    // Let's move these to the robot level.
+//    public void rightPos() {
+//        moveForward(24, 0.5);
+//        Wait(.5);
+//        turnClockwise(92, 0.5);
+//        Wait(.5);
+//
+//    }
+//    public void centerPos() {
+//        moveForward(24, 0.5);
+//        Wait(.5);
+//
+//    }
+//    public void leftPos() {
+//        moveForward(24, 0.5);
+//        Wait(.5);
+//        turnClockwise(-92, 0.5);
+//        Wait(.5);
+//    }
 
-    }
-
-    public void centerPos() {
-        moveForward(24, 0.5);
-        Wait(.5);
-
-    }
-
-    public void leftPos() {
-        moveForward(24, 0.5);
-        Wait(.5);
-        turnClockwise(-92, 0.5);
-        Wait(.5);
-    }
-
-    public void Wait(double seconds) {
-        runtime.reset();
-        while (runtime.time() < seconds) {
-            // this statement is supposed to be empty.
-        }
-    }
+    // Let's put this at the robot level.
+//    public void Wait(double seconds) {
+//        runtime.reset();
+//        while (runtime.time() < seconds) {
+//            // this statement is supposed to be empty.
+//        }
+//    }
 }
