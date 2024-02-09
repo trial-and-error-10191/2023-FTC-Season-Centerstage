@@ -13,6 +13,7 @@ public class Gobbler {
     public Outtake outtake;
     public PlaneHang planeHang;
     private TeamPropDetector teamPropDetector = null;
+    private AprilTagDetector aprilTagDetector = null;
 
     Telemetry telemetry = null;
 
@@ -23,6 +24,7 @@ public class Gobbler {
         outtake = new Outtake(hwMap);
         planeHang = new PlaneHang(hwMap);
         teamPropDetector = new TeamPropDetector(hwMap, telemetry);
+        aprilTagDetector = new AprilTagDetector(hwMap, telemetry);
         this.telemetry = telemetry;
     }
 
