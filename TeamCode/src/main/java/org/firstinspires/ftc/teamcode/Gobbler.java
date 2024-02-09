@@ -12,6 +12,7 @@ public class Gobbler {
     public Intake intake;
     public Outtake outtake;
     public PlaneHang planeHang;
+    private TeamPropDetector teamPropDetector = null;
 
     Telemetry telemetry = null;
 
@@ -21,6 +22,7 @@ public class Gobbler {
         intake = new Intake(hwMap);
         outtake = new Outtake(hwMap);
         planeHang = new PlaneHang(hwMap);
+        teamPropDetector = new TeamPropDetector(hwMap, telemetry);
         this.telemetry = telemetry;
     }
 
