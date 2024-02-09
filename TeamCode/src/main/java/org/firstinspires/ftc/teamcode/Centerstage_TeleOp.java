@@ -18,35 +18,48 @@ public class Centerstage_TeleOp extends LinearOpMode {
         ElapsedTime droneToggleTime = new ElapsedTime();
         ElapsedTime trapToggleTime = new ElapsedTime();
         ElapsedTime directionToggleTime = new ElapsedTime();
+        ElapsedTime runTime = new ElapsedTime();
+        double currentTime = 0;
 
         telemetry.addData("Status", "Waiting for Start");
         telemetry.update();
 
         waitForStart();
         while (opModeIsActive()) {
+            telemetry.addData("Starting Loop at", "%4.2f", runTime.milliseconds());
+            currentTime  = runTime.milliseconds();
             // This function controls the trapdoor.
             // The first input is the button used to control the trap door.
             // The second input is the time the function uses to space out inputs.
             gobbler.outtake.trapdoor(gamepad2.x, trapToggleTime);
+            telemetry.addData("Finished trapdoor movement in", "%4.2f", runTime.milliseconds() - currentTime);
+            currentTime = runTime.milliseconds();
 
             // This function controls the drone.
             // The first input is the button used to control the drone.
             // The second input is the time the function uses to space out inputs.
             gobbler.planeHang.launchDrone(gamepad2.y, droneToggleTime);
+            telemetry.addData("Finished drone launching movement in", "%4.2f", runTime.milliseconds() - currentTime);
+            currentTime = runTime.milliseconds();
 
             // This function controls the intake and conveyor.
             // The first input is the button used to control the trap door.
             // The second input is the time the function uses to space out inputs.
             gobbler.intake.driveIntake(gamepad2.a, intakeToggleTime);
+            telemetry.addData("Finished intake movement in", "%4.2f", runTime.milliseconds() - currentTime);
+            currentTime = runTime.milliseconds();
 
             // This controls the drive train using three double input methods.
             // The fourth input is a boolean for the direction toggle.
             // The last input is the time the function uses to space out inputs for the direction switch.
             //gobbler.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.x, directionToggleTime);
             gobbler.driveTrain.driveByPower(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            telemetry.addData("Finished driving movement in", "%4.2f", runTime.milliseconds() - currentTime);
+            currentTime = runTime.milliseconds();
 
             // This functions uses one double input to drive the lift.
             gobbler.outtake.driveLift(gamepad2.left_stick_y);
+            telemetry.addData("Finished lift movement in", "%4.2f", runTime.milliseconds() - currentTime);
 
 //          For now, we don't want this telemetry interfering with our debugging effort
 //            // Provides telemetry for all motors, servos, and sensors.
