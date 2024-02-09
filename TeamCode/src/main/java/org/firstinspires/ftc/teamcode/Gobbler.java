@@ -2,7 +2,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robocol.TelemetryMessage;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Gobbler {
     public DriveTrain driveTrain;
@@ -10,12 +13,15 @@ public class Gobbler {
     public Outtake outtake;
     public PlaneHang planeHang;
 
+    Telemetry telemetry = null;
+
     // This combines all the subsystems.
-    public Gobbler(HardwareMap hwMap) {
-        driveTrain = new DriveTrain(hwMap);
+    public Gobbler(HardwareMap hwMap, Telemetry telemetry) {
+        driveTrain = new DriveTrain(hwMap, telemetry);
         intake = new Intake(hwMap);
         outtake = new Outtake(hwMap);
         planeHang = new PlaneHang(hwMap);
+        this.telemetry = telemetry;
     }
 
     public void driveToCenterPos() {

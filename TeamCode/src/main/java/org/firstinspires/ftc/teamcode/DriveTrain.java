@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /** @noinspection ALL*/
@@ -24,9 +25,8 @@ public class DriveTrain {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     private final double clicksPerDeg = clicksPerInch / 4.99; // empirically measured
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime cycleTime = new ElapsedTime();
 
-    private boolean directionToggle = false;
+
     private DistanceSensor BackWDRight;
     private DistanceSensor BackWDLeft;
     private double BackWDValueRight;
@@ -38,8 +38,10 @@ public class DriveTrain {
     private double slope = (1 - RampDownSpeed) / (RampDownStart - RampDownEnd);
     private double intercept = 1 - slope * RampDownStart ;
 
+    Telemetry telemetry;
+
     // All subsystems should have a hardware function that labels all of the hardware required of it.
-    public DriveTrain(HardwareMap hwMap) {
+    public DriveTrain(HardwareMap hwMap, Telemetry telemetry) {
 
         // Initializes motor names:
         leftFrontDrive = hwMap.get(DcMotor.class, "leftFront");
@@ -53,8 +55,12 @@ public class DriveTrain {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        this.telemetry = telemetry;
+
         BackWDRight = hwMap.get(DistanceSensor.class, "sensor_distance_BackWDRight");
         BackWDLeft = hwMap.get(DistanceSensor.class, "sensor_distance_BackWDLeft");
+
+        runtime.reset();
     }
 
 
@@ -65,7 +71,8 @@ public class DriveTrain {
      * @param yaw - power to rotate robot (positive power -> rotate clockwise)
      */
     public void driveByPower(double axial, double lateral, double yaw) {
-
+        double currentTime = runtime.milliseconds();
+        telemetry.addData("Entering driveByPower function at", "%4.2f", currentTime);
         BackWDValueRight = BackWDRight.getDistance(DistanceUnit.INCH);
         BackWDValueLeft = BackWDLeft.getDistance(DistanceUnit.INCH);
 
@@ -102,6 +109,8 @@ public class DriveTrain {
             leftBackPower = axial - lateral + yaw;
             rightBackPower = axial + lateral - yaw;
         }
+        telemetry.addData("Time to do deadzone calculations", "%4.2f", runtime.milliseconds() - currentTime);
+        currentTime = runtime.milliseconds();
 
         // All code below this comment normalizes the values so no wheel power exceeds 100%.
         double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -113,6 +122,8 @@ public class DriveTrain {
             leftBackPower /= max;
             rightBackPower /= max;
         }
+        telemetry.addData("Time to normalize motor power", "%4.2f", runtime.milliseconds() - currentTime);
+        currentTime = runtime.milliseconds();
 
         // Adjustable variable for sensitivity. The default is 0.5. (half power)
         double sensitivity = 0.5;
@@ -154,6 +165,9 @@ public class DriveTrain {
         rightFrontDrive.setPower(rightFrontPower);
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
+
+        telemetry.addData("Time to apply motor power", "%4.2f", runtime.milliseconds() - currentTime);
+        telemetry.update();
     }
 
     /**

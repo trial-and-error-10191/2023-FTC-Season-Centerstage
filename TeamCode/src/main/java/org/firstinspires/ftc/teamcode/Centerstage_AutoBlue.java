@@ -77,7 +77,7 @@ public class Centerstage_AutoBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Gobbler gobbler = new Gobbler(hardwareMap);
+        Gobbler gobbler = new Gobbler(hardwareMap, telemetry);
         initTfod();
         gobbler.intake.intakeDown(false);
         //robot.outtake.launchDrone(0.0);
