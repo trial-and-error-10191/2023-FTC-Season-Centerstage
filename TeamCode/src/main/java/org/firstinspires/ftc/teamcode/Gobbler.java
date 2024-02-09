@@ -19,7 +19,21 @@ public class Gobbler {
     }
 
     public void driveToCenterPos() {
-        moveForward(24, 0.5);
+        moveBackward(24, 0.5);
+        Wait(.5);
+    }
+
+    public void driveToRightPos() {
+        moveBackward(24, 0.5);
+        Wait(.5);
+        turnCounterClockwise(92, 0.5);
+        Wait(.5);
+    }
+
+    public void driveToLeftPos() {
+        moveBackward(24, 0.5);
+        Wait(.5);
+        turnClockwise(92, 0.5);
         Wait(.5);
     }
 
@@ -31,9 +45,17 @@ public class Gobbler {
         driveTrain.driveByEncoder(-Math.abs(distance), 0.0, 0.0, speed);
     }
 
+    private void turnClockwise(double distance, double  speed) {
+        driveTrain.driveByEncoder(0.0, 0.0, Math.abs(distance), speed);
+    }
+
+    private void turnCounterClockwise(double distance, double  speed) {
+        driveTrain.driveByEncoder(0.0, 0.0, -Math.abs(distance), speed);
+    }
+
     /**
      *
-     * @param waitTime
+     * @param waitTime how many seconds you want the function to wait before moving ot the next line of code.
      */
     private void Wait(double waitTime) {
         ElapsedTime waitTimer = new ElapsedTime();
@@ -42,4 +64,4 @@ public class Gobbler {
             // Doing nothing for the specified amount of time
         }
     }
-}
+} // end class

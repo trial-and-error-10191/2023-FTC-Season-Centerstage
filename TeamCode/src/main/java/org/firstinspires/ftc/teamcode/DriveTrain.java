@@ -24,6 +24,7 @@ public class DriveTrain {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     private final double clicksPerDeg = clicksPerInch / 4.99; // empirically measured
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime cycleTime = new ElapsedTime();
 
     private boolean directionToggle = false;
     private DistanceSensor BackWDRight;
@@ -68,22 +69,23 @@ public class DriveTrain {
         BackWDValueRight = BackWDRight.getDistance(DistanceUnit.INCH);
         BackWDValueLeft = BackWDLeft.getDistance(DistanceUnit.INCH);
 
-        double effectiveDistance = BackWDValueLeft < BackWDValueRight ? BackWDValueLeft : BackWDValueRight;
-        double DistanceEquationValue = slope * effectiveDistance + intercept;
+//        double effectiveDistance = BackWDValueLeft < BackWDValueRight ? BackWDValueLeft : BackWDValueRight;
+//        double DistanceEquationValue = slope * effectiveDistance + intercept;
+//
+//        // Ramps down speed as mailbox approaches backstage.
+//        if (effectiveDistance <= RampDownStart && effectiveDistance >= RampDownEnd){
+//            yaw *= DistanceEquationValue;
+//            if (axial < 0) {
+//                axial *= DistanceEquationValue;
+//            }
+//        }
+//        if (effectiveDistance < RampDownEnd){
+//            yaw *= RampDownSpeed;
+//            if ( axial < 0) {
+//                axial *= RampDownSpeed;
+//            }
+//        }
 
-        // Ramps down speed as mailbox approaches backstage.
-        if (effectiveDistance <= RampDownStart && effectiveDistance >= RampDownEnd){
-            yaw *= DistanceEquationValue;
-            if (axial < 0) {
-                axial *= DistanceEquationValue;
-            }
-        }
-        if (effectiveDistance < RampDownEnd){
-            yaw *= RampDownSpeed;
-            if ( axial < 0) {
-                axial *= RampDownSpeed;
-            }
-        }
 
         double leftFrontPower = 0;
         double rightFrontPower = 0;
@@ -115,10 +117,10 @@ public class DriveTrain {
         // Adjustable variable for sensitivity. The default is 0.5. (half power)
         double sensitivity = 0.5;
         // Calculates power using sensitivity variable.
-        leftFrontPower *= sensitivity;
-        leftBackPower *= sensitivity;
-        rightFrontPower *= sensitivity;
-        rightBackPower *= sensitivity;
+//        leftFrontPower *= sensitivity;
+//        leftBackPower *= sensitivity;
+//        rightFrontPower *= sensitivity;
+//        rightBackPower *= sensitivity;
 
         // Let's try to deal with switching driving controls at a higher level
 
@@ -257,4 +259,4 @@ public class DriveTrain {
 //            // this statement is supposed to be empty.
 //        }
 //    }
-}
+} // end class

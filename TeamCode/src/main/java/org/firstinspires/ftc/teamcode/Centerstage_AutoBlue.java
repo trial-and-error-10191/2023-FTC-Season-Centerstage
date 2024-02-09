@@ -107,14 +107,14 @@ public class Centerstage_AutoBlue extends LinearOpMode {
                 else if (xValue > 65 && xValue < 150 && yValue > 135 && yValue < 225) {
                         // left
                         telemetry.addData("position","Left");
-                        gobbler.driveTrain.leftPos();
+                        gobbler.driveToLeftPos();
                         seen = true;
                 }
 
             }
              if (!seen) {
-                 telemetry.addData("position","Left");
-                 gobbler.driveTrain.rightPos();
+                 telemetry.addData("position","Right");
+                 gobbler.driveToLeftPos();
              }
                 telemetryTfod();
 
