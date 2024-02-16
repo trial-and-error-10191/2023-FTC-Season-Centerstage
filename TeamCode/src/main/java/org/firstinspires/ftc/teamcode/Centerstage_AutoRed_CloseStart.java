@@ -99,7 +99,7 @@ public class Centerstage_AutoRed_CloseStart extends LinearOpMode {
 
         if (opModeIsActive()) {
             PlaceFirstPixel();
-            setupRobotToPlaceSecondPixel();
+            //setupRobotToPlaceSecondPixel();
         }
 
         // Save more CPU resources when camera is no longer needed.

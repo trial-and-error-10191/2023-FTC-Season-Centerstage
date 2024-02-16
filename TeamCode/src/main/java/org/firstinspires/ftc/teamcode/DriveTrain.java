@@ -670,7 +670,9 @@ public class DriveTrain {
     public void rightBlueFarRedClose() {
         moveBackward(14, 0.5);
         Wait(.5);
-        strafeLeft(13,0.5);
+        strafeLeft(11,0.5);
+        Wait(.5);
+        moveBackward(2, 0.5);
         Wait(.5);
     }
 
