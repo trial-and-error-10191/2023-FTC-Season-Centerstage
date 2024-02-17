@@ -3,27 +3,27 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+import java.util.List;
 
 public class TeamPropDetector {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "centerstage_bluemayhem.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
             "Blue Mayhem",
     };
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
-    private TfodProcessor tfod = null;
+    private final TfodProcessor tfod;
+    boolean seen = false;
+    int borderLine = 450;
     /**
      * The variable to store our instance of the vision portal.
      */
@@ -49,8 +49,7 @@ public class TeamPropDetector {
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)
-                //.setModelAspectRatio(16.0 / 9.0)
-
+                //.setModelAspectRatio(16.0 / 9.0
                 .build();
 
         // Create the vision portal by using a builder.
@@ -94,6 +93,33 @@ public class TeamPropDetector {
      * Personally, I would like to return something different (like an enumeration), but an int can suffice for now
      */
     public int identifyTeamProp() {
-        return 0;
+        seen = false; // setting it to false again so that the robot will correctly detect Mayhem on the left piece of tape
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        int location = -1;
+        for (Recognition recognition : currentRecognitions) {
+            double xValue = (recognition.getLeft() + recognition.getRight()) / 2;
+            // To figure out this part, you will have to use the ConceptTensorFlowObjectDetection file
+            // The first two x values represent the minimum and maximum value x has to be for the team prop to be considered center.
+            // The second two y values represent the minimum and maximum value x has to be for the team prop to be considered center.
+            if (xValue < borderLine) {
+                // center
+                location = 0;
+                seen = true;
+            }
+
+            // The first two x values represent the minimum and maximum value x has to be for the team prop to be considered right.
+            // The second two y values represent the minimum and maximum value x has to be for the team prop to be considered right.
+            else if (xValue > borderLine) {  //
+                // right
+                location = 2;
+                seen = true;
+
+            }
+        }
+        // If the team prop is not seen on the center or right, it will assume it is on the left.
+        if (!seen) {
+            location = 3;
+        }
+        return location;
     }
 }

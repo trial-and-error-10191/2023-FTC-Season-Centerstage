@@ -26,6 +26,9 @@ public class AprilTagDetector {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder()
                 // TODO: 1/30/24 add the bounding boxes and axis
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
                 .build();
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
