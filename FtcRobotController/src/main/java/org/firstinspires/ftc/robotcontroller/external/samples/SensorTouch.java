@@ -48,15 +48,14 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Sensor: REV touch sensor", group = "Sensor")
-@Disabled
+//@Disabled
 public class SensorTouch extends LinearOpMode {
-    TouchSensor touchSensor;  // Touch sensor Object
-
+    TouchSensor touchSensor, touchSensor2;  // Touch sensor Object
     @Override
     public void runOpMode() {
-
         // get a reference to our touchSensor object.
         touchSensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
+        touchSensor2 = hardwareMap.get(TouchSensor.class, "sensor_touch_2");
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -64,14 +63,19 @@ public class SensorTouch extends LinearOpMode {
         // while the OpMode is active, loop and read whether the sensor is being pressed.
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
-
             // send the info back to driver station using telemetry function.
             if (touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
-            } else {
+            }
+            else {
                 telemetry.addData("Touch Sensor", "Is Not Pressed");
             }
-
+            if (touchSensor2.isPressed()) {
+                telemetry.addData("Touch Sensor 2", "Is Pressed");
+            }
+            else {
+                telemetry.addData("Touch Sensor 2", "Is Not Pressed");
+            }
             telemetry.update();
         }
     }

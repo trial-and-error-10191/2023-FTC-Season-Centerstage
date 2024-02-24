@@ -20,7 +20,9 @@ public class Outtake {
     }
 
     // This functions uses one double input to drive the lift.
-    public void driveLift(double power) { stageMotor.setPower(power); }
+    public void driveLift(double power) {
+        stageMotor.setPower(power);
+    }
 
     // This function controls the trapdoor.
     // The first input is the button used to control the trap door.

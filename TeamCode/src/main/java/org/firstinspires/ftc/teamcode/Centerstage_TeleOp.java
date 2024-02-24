@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // This file is the main TeleOp file.
@@ -13,6 +14,12 @@ public class Centerstage_TeleOp extends LinearOpMode {
     public void runOpMode() {
         // Initiates the robots system and subsystems!
         Gobbler gobbler = new Gobbler(hardwareMap);
+
+        TouchSensor touchSensor;
+        TouchSensor touchSensor2;
+
+        touchSensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
+        touchSensor2 = hardwareMap.get(TouchSensor.class, "sensor_touch_2");
 
         ElapsedTime intakeToggleTime = new ElapsedTime();
         ElapsedTime droneToggleTime = new ElapsedTime();
@@ -45,8 +52,29 @@ public class Centerstage_TeleOp extends LinearOpMode {
             gobbler.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.x, directionToggleTime);
 
             // This functions uses one double input to drive the lift.
-            gobbler.outtake.driveLift(gamepad2.left_stick_y);
+            //gobbler.outtake.driveLift(gamepad2.left_stick_y);
 
+            if (touchSensor.isPressed()) {
+                telemetry.addData("Touch Sensor", "Is Pressed");
+            }
+            else {
+                telemetry.addData("Touch Sensor", "Is Not Pressed");
+            }
+            if (touchSensor2.isPressed()) {
+                telemetry.addData("Touch Sensor 2", "Is Pressed");
+            }
+            else {
+                telemetry.addData("Touch Sensor 2", "Is Not Pressed");
+            }
+            if (touchSensor.isPressed() && gamepad2.left_stick_y > 0) {
+                gobbler.outtake.driveLift(0.0);
+            }
+            else if (touchSensor2.isPressed() && gamepad2.left_stick_y < 0) {
+                gobbler.outtake.driveLift(0.0);
+            }
+            else {
+                gobbler.outtake.driveLift(gamepad2.left_stick_y);
+            }
             // Provides telemetry for all motors, servos, and sensors.
             telemetry.addData("Front Driving Motors (Left, Right)", "%4.2f, %4.2f",
                     gobbler.driveTrain.leftFrontDrive.getPower(),
