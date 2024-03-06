@@ -81,7 +81,7 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
     final double MAX_AUTO_TURN  = 0.3; //  Clip the turn speed to this max value (adjust for your robot)
 
 
-    private int DESIRED_TAG_ID = 6;
+    private int DESIRED_TAG_ID = 4;
 
     private AprilTagProcessor aprilTag;
 
@@ -114,14 +114,14 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
         initDoubleVision();
 
         while (WaitingToStart()) {
-            //IdentifyTeamPropLocation();
+         //   IdentifyTeamPropLocation();
         }
 
         if (opModeIsActive()) {
 //            placeFirstPixel();
 //            setupRobotToPlaceSecondPixel();
             placeSecondPixel();
-//            parkRobot();
+            parkRobot();
         }
 
         // Save more CPU resources when camera is no longer needed.
@@ -130,9 +130,21 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
     }   // end runOpMode()
 
     private void parkRobot() {
+        if (DESIRED_TAG_ID == 4) {
+            gobbler.driveTrain.strafeLeft(34, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
 
+        else if (DESIRED_TAG_ID == 5) {
+            gobbler.driveTrain.strafeLeft(29, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
 
-
+        else if (DESIRED_TAG_ID == 6) {
+            gobbler.driveTrain.strafeLeft(19, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
+        gobbler.driveTrain.moveBackward(9,0.5);
     }
 
     private void placeSecondPixel() {
@@ -333,23 +345,23 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
         // the robot the last leg to in front of the backboard, in position to score a pixel
         if (DESIRED_TAG_ID == 4) {
             gobbler.driveTrain.moveBackward(12, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
             gobbler.driveTrain.strafeLeft(2, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
         }
 
         else if (DESIRED_TAG_ID == 5) {
             gobbler.driveTrain.moveBackward(12, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
             gobbler.driveTrain.strafeLeft(3, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
         }
 
         else if (DESIRED_TAG_ID == 6) {
             gobbler.driveTrain.moveBackward(12, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
             gobbler.driveTrain.strafeLeft(6, 0.5);
-            gobbler.driveTrain.Wait(0.5);
+            gobbler.driveTrain.Wait(0.1);
         }
 
         gobbler.driveTrain.moveBackward(10, 0.5);
@@ -425,11 +437,11 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
 
     private void PlacePixelOnTape() {
         gobbler.outtake.trapdoor(true, trapdoorToggle);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(-0.5);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(0.0);
-        gobbler.driveTrain.Wait(2);
+        gobbler.driveTrain.Wait(0.8);
         gobbler.outtake.trapdoor(true, trapdoorToggle);
     }
 

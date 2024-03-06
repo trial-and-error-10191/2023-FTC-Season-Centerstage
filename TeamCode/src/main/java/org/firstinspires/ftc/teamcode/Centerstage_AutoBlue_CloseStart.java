@@ -70,7 +70,7 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
     private TfodProcessor tfod;
     boolean seen = false;
 
-    private int DESIRED_TAG_ID = 1;
+    private int DESIRED_TAG_ID = 3;
     private AprilTagProcessor aprilTag;
     // Variable that will later be used for placing the second pixel.
     private AprilTagDetection desiredTag = null;
@@ -95,7 +95,7 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
         initDoubleVision();
 
         while (WaitingToStart()) {
-            //identifyTeamPropLocation();
+          //  identifyTeamPropLocation();
         }
 
         if (opModeIsActive()) {
@@ -103,7 +103,7 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
 //            placeFirstPixel();
 //            setupRobotToPlaceSecondPixel();
             placeSecondPixel();
-//            parkRobot();
+            parkRobot();
         }
 
         // Save more CPU resources when camera is no longer needed.
@@ -112,7 +112,21 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
     }   // end runOpMode()
 
     private void parkRobot() {
+        if (DESIRED_TAG_ID == 1) {
+            gobbler.driveTrain.strafeRight(18, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
 
+        else if (DESIRED_TAG_ID == 2) {
+            gobbler.driveTrain.strafeRight(27, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
+
+        else if (DESIRED_TAG_ID == 3) {
+            gobbler.driveTrain.strafeRight(32, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
+        gobbler.driveTrain.moveBackward(7,0.5);
     } // end of parkRobot()
 
     private void placeSecondPixel() {
@@ -125,7 +139,7 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
         // How do we want to handle potentially needing to wait for our alliance partner to
         // place their pixel on the backboard before we can?
 
-        // What do we want        to do if we don't identify the target?
+        // What do we want to do if we don't identify the target?
         if (targetFound) {
             driveToTarget();
             //placePixelOnBackboard();
@@ -232,23 +246,23 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
 
     public void finalCenterPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(3, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     public void finalRightPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(2, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     public void finalLeftPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(6, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     private void fineTunePositioning() {
@@ -417,11 +431,11 @@ public class Centerstage_AutoBlue_CloseStart extends LinearOpMode {
 
     private void placePixelOnTape() {
         gobbler.outtake.trapdoor(true, trapdoorToggle);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(-0.5);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(0.0);
-        gobbler.driveTrain.Wait(2);
+        gobbler.driveTrain.Wait(0.8);
         gobbler.outtake.trapdoor(true, trapdoorToggle);
     } // end of placePixelOnTape
 

@@ -112,7 +112,7 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
 //            PlaceFirstPixel();
 //            setupRobotToPlaceSecondPixel();
             placeSecondPixel();
-//            parkRobot();
+            parkRobot();
         }
 
         // Save more CPU resources when camera is no longer needed.
@@ -121,7 +121,21 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
     }   // end runOpMode()
 
     private void parkRobot() {
+        if (DESIRED_TAG_ID == 1) {
+            gobbler.driveTrain.strafeRight(18, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
 
+        else if (DESIRED_TAG_ID == 2) {
+            gobbler.driveTrain.strafeRight(27, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
+
+        else if (DESIRED_TAG_ID == 3) {
+            gobbler.driveTrain.strafeRight(32, 0.5);
+            gobbler.driveTrain.Wait(0.1);
+        }
+        gobbler.driveTrain.moveBackward(7,0.5);
     } // end of parkRobot()
 
     private void placeSecondPixel() {
@@ -237,23 +251,23 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
 
     public void finalCenterPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(3, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     public void finalRightPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(2, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     public void finalLeftPos () {
         gobbler.driveTrain.moveBackward(12, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(6, 0.5);
-        gobbler.driveTrain.Wait(0.5);
+        gobbler.driveTrain.Wait(0.1);
     }
 
     private void fineTunePositioning() {
@@ -426,11 +440,11 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
 
     private void PlacePixelOnTape() {
         gobbler.outtake.trapdoor(true, trapdoorToggle);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(-0.5);
-        gobbler.driveTrain.Wait(1.0);
+        gobbler.driveTrain.Wait(0.6);
         gobbler.outtake.driveLift(0.0);
-        gobbler.driveTrain.Wait(2);
+        gobbler.driveTrain.Wait(0.8);
         gobbler.outtake.trapdoor(true, trapdoorToggle);
     }
 
