@@ -112,14 +112,14 @@ public class Centerstage_AutoRed_CloseStart extends LinearOpMode {
         initDoubleVision();
 
         while (WaitingToStart()) {
-            //IdentifyTeamPropLocation();
+            IdentifyTeamPropLocation();
         }
 
         if (opModeIsActive()) {
-//            PlaceFirstPixel();
+            PlaceFirstPixel();
 //            setupRobotToPlaceSecondPixel();
-            placeSecondPixel();
-            parkRobot();
+//            placeSecondPixel();
+//            parkRobot();
         }
 
         // Save more CPU resources when camera is no longer needed.
