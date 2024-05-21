@@ -187,6 +187,17 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
         // double desiredYaw = 20.0;
 
         while (opModeIsActive()) {
+            // This code will be used to bring the robot from the front part of the arena to the back
+            // part of the arena to place the second pixel
+            if (DESIRED_TAG_ID == 1) {
+                gobbler.driveTrain.frontToBackBlueRight();
+            }
+            else if (DESIRED_TAG_ID == 2) {
+                gobbler.driveTrain.frontToBackBlueCenter();
+            }
+            else {
+
+            }
             locateTargetAprilTag();
             // if the camera didn't detect the desired tag in the previous cycle, give it a chance
             // to try again.

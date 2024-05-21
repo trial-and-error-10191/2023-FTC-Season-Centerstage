@@ -227,7 +227,7 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
             gobbler.driveTrain.moveBackward(3, 0.5);
             gobbler.driveTrain.Wait(3.0);
             gobbler.driveTrain.turnCounterClockwise(-180, 0.5);
-        } else { // This turns the robot to the backboard if it is in the left positions
+        } else { // This turns the robot to the backboard if it is in the left position
             gobbler.driveTrain.turnCounterClockwise(-90, 0.5);
         }
     }
@@ -300,6 +300,15 @@ public class Centerstage_AutoRed_FarStart extends LinearOpMode {
         // double desiredYaw = 20.0;
 
         while (opModeIsActive()) {
+            if (DESIRED_TAG_ID == 1) {
+
+            }
+            else if (DESIRED_TAG_ID == 2) {
+                gobbler.driveTrain.frontToBackRedCenter();
+            }
+            else {
+                gobbler.driveTrain.frontToBackRedLeft();
+            }
             LocateTargetAprilTag();
             // if the camera didn't detect the desired tag in the previous cycle, give it a chance
             // to try again.

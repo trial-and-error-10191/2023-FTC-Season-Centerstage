@@ -753,6 +753,42 @@ public class DriveTrain {
         Wait(.1);
     }
 
+    public void frontToBackBlueRight() {
+        turnClockwise(45, 0.5);
+        Wait(.1);
+        strafeRight(10, 0.5);
+        Wait(.1);
+        moveBackward(36, 0.5);
+        Wait(.1);
+    }
+
+    public void frontToBackBlueCenter() {
+        turnClockwise(45, 0.5);
+        Wait(.1);
+        strafeRight(10, 0.5);
+        Wait(.1);
+        moveBackward(36, 0.5);
+        Wait(.1);
+    }
+
+    public void frontToBackRedLeft() {
+        turnClockwise(45, 0.5);
+        Wait(.1);
+        strafeLeft(10,0.5);
+        Wait(.1);
+        moveBackward(36, 0.5);
+        Wait(.1);
+    }
+
+    public void frontToBackRedCenter() {
+        turnClockwise(45, 0.5);
+        Wait(.1);
+        strafeLeft(10, 0.5);
+        Wait(.1);
+        moveBackward(36, 0.5);
+        Wait(.1);
+    }
+
     public void Wait(double seconds) {
         runtime.reset();
         while (runtime.time() < seconds) {
