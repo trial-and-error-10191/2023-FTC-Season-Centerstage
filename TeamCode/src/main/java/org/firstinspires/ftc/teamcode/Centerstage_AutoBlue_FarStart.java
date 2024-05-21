@@ -187,6 +187,10 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
         // double desiredYaw = 20.0;
 
         while (opModeIsActive()) {
+
+            if (DESIRED_TAG_ID == 3) {
+
+            }
             locateTargetAprilTag();
             // if the camera didn't detect the desired tag in the previous cycle, give it a chance
             // to try again.
@@ -267,6 +271,21 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
         gobbler.driveTrain.moveBackward(12, 0.5);
         gobbler.driveTrain.Wait(0.1);
         gobbler.driveTrain.strafeLeft(6, 0.5);
+        gobbler.driveTrain.Wait(0.1);
+    }
+
+    public void finalSecondLeftPos () {
+        gobbler.driveTrain.moveBackward(6,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.turnCounterClockwise(85,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.moveForward(12,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.turnClockwise(90,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.moveForward(48,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.strafeLeft(12,0.5);
         gobbler.driveTrain.Wait(0.1);
     }
 
