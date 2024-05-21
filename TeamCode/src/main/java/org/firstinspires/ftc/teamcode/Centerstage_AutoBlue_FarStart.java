@@ -188,9 +188,6 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (DESIRED_TAG_ID == 3) {
-
-            }
             locateTargetAprilTag();
             // if the camera didn't detect the desired tag in the previous cycle, give it a chance
             // to try again.
