@@ -702,7 +702,6 @@ public class DriveTrain {
     public boolean getDriveDirection() {
         return directionToggle;
     }
-
     public void rightPos() {
         moveBackward(20, 0.5);
         Wait(.1);
@@ -711,14 +710,12 @@ public class DriveTrain {
         moveBackward(2, 0.5);
         Wait(.1);
     }
-
     public void rightBlueFarRedClose() {
         moveBackward(14, 0.5);
         Wait(.1);
         strafeLeft(13,0.5);
         Wait(.1);
     }
-
     public void centerPos() {
         strafeRight(13,0.5);
         Wait(.1);
@@ -727,7 +724,6 @@ public class DriveTrain {
         turnCounterClockwise(-90, 0.5);
         Wait(.1);
     }
-
     public void centerBlueFarRedClose() {
         strafeLeft(13,0.5);
         Wait(.1);
@@ -736,14 +732,12 @@ public class DriveTrain {
         turnClockwise(-90, 0.5);
         Wait(.1);
     }
-
     public void leftPos() {
         strafeRight(13,0.5);
         Wait(.1);
         moveBackward(18, 0.5);
         Wait(.1);
     }
-
     public void leftBlueFarRedClose() {
         moveBackward(20, 0.5);
         Wait(.1);
@@ -752,7 +746,6 @@ public class DriveTrain {
         moveBackward(2, 0.5);
         Wait(.1);
     }
-
     public void frontToBackBlueRight() {
         turnClockwise(45, 0.5);
         Wait(.1);
@@ -761,7 +754,6 @@ public class DriveTrain {
         moveBackward(36, 0.5);
         Wait(.1);
     }
-
     public void frontToBackBlueCenter() {
         turnClockwise(45, 0.5);
         Wait(.1);
@@ -770,7 +762,6 @@ public class DriveTrain {
         moveBackward(36, 0.5);
         Wait(.1);
     }
-
     public void frontToBackRedLeft() {
         turnClockwise(45, 0.5);
         Wait(.1);
@@ -779,7 +770,6 @@ public class DriveTrain {
         moveBackward(36, 0.5);
         Wait(.1);
     }
-
     public void frontToBackRedCenter() {
         turnClockwise(45, 0.5);
         Wait(.1);
@@ -788,7 +778,6 @@ public class DriveTrain {
         moveBackward(36, 0.5);
         Wait(.1);
     }
-
     public void Wait(double seconds) {
         runtime.reset();
         while (runtime.time() < seconds) {
