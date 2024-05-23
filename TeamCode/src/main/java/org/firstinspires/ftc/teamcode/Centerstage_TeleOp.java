@@ -34,12 +34,12 @@ public class Centerstage_TeleOp extends LinearOpMode {
             // This function controls the trapdoor.
             // The first input is the button used to control the trap door.
             // The second input is the time the function uses to space out inputs.
-            gobbler.outtake.trapdoor(gamepad2.x, trapToggleTime);
+            gobbler.outtake.trapdoor(gamepad1.x, trapToggleTime);
 
             // This function controls the drone.
             // The first input is the button used to control the drone.
             // The second input is the time the function uses to space out inputs.
-            gobbler.planeHang.launchDrone(gamepad2.y, droneToggleTime);
+            gobbler.planeHang.launchDrone(gamepad1.y, droneToggleTime);
 
             // This function controls the hanging motors.
             // The first input is the button used to power the motors.
@@ -54,8 +54,7 @@ public class Centerstage_TeleOp extends LinearOpMode {
             // This function controls the intake and conveyor.
             // The first input is the button used to control the trap door.
             // The second input is the time the function uses to space out inputs.
-            gobbler.intake.driveIntake(gamepad2.a, intakeToggleTime);
-            gobbler.intake.reverseIntake(gamepad2.dpad_left, intakeDirectionToggle);
+            gobbler.intake.driveIntake(gamepad1.a, intakeToggleTime);
 
             // This controls the drive train using three double input methods.
             // The fourth input is a boolean for the direction toggle.
