@@ -281,6 +281,21 @@ public class Centerstage_AutoBlue_FarStart extends LinearOpMode {
         gobbler.driveTrain.Wait(0.1);
     }
 
+    public void finalSecondLeftPos () {
+        gobbler.driveTrain.moveBackward(6,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.turnCounterClockwise(85,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.moveForward(12,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.turnClockwise(90,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.moveForward(48,0.5);
+        gobbler.driveTrain.Wait(0.1);
+        gobbler.driveTrain.strafeLeft(12,0.5);
+        gobbler.driveTrain.Wait(0.1);
+    }
+
     private void fineTunePositioning() {
         // If we have the second camera ready for viewing the april tag when we're up against the
         // backboard, we can put a similar loop in here to make finer adjustments to the robot
