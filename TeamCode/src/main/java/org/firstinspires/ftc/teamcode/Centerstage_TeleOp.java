@@ -44,7 +44,7 @@ public class Centerstage_TeleOp extends LinearOpMode {
             // This controls the drive train using three double input methods.
             // The fourth input is a boolean for the direction toggle.
             // The last input is the time the function uses to space out inputs for the direction switch.
-            gobbler.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.x, directionToggleTime);
+            gobbler.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_stick_button, directionToggleTime);
 
             // This functions uses one double input to drive the lift.
             gobbler.outtake.driveLift(gamepad2.left_stick_y);
