@@ -44,16 +44,17 @@ public class Centerstage_TeleOp extends LinearOpMode {
             // This function controls the hanging motors.
             // The first input is the button used to power the motors.
             // The second input is the button used to reverse the motors.
-            gobbler.planeHang.hangMotors(gamepad2.dpad_up, gamepad2.dpad_down);
+            gobbler.planeHang.hangMotors(gamepad1.dpad_up, gamepad1.dpad_down);
 
             // This function controls the hanging servo.
             // The first input is the button used to control the servo.
             // The second input is the time the function uses to space out inputs.
-            gobbler.planeHang.hangServo(gamepad2.b, hangServoTime);
+            gobbler.planeHang.hangServo(gamepad1.b, hangServoTime);
 
             // This function controls the intake and conveyor.
             // The first input is the button used to control the trap door.
             // The second input is the time the function uses to space out inputs.
+            gobbler.intake.reverseIntake(gamepad1.right_stick_button, intakeDirectionToggle);
             gobbler.intake.driveIntake(gamepad1.a, intakeToggleTime);
 
             // This controls the drive train using three double input methods.
