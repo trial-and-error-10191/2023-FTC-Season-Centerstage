@@ -63,7 +63,7 @@ public class Centerstage_TeleOp extends LinearOpMode {
             gobbler.driveTrain.drive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_stick_button, directionToggleTime);
 
             // This functions uses one double input to drive the lift.
-            gobbler.outtake.driveLift(-gamepad2.left_stick_y);
+            gobbler.outtake.driveLift(gamepad1.left_trigger, gamepad1.right_trigger);
 
             // Provides telemetry for all motors, servos, and sensors.
             telemetry.addData("Front Driving Motors (Left, Right)", "%4.2f, %4.2f",

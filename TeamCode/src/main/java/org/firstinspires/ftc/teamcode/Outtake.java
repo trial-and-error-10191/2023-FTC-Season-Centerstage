@@ -29,20 +29,31 @@ public class Outtake {
     }
 
     // This functions uses one double input to drive the lift.
-    public void driveLift(double power) {
-        if (bottomLimit.isPressed() && power < 0.0) {
+    public void driveLift(double raise, double lower) {
+        if ((raise > 0.0 && lower > 0.0) || (raise <= 0.0 && lower <= 0.0)) {
+            liftMotor.setPower(0.0);
+        }
+        else if ((mailboxOpen && raise != 0.0) || (mailboxOpen && lower != 0.0)) {
+            closeMailbox();
+        }
+        else if (raise > 0.0 && getLiftMotorPos() > encoderTopLimit) {
+            liftMotor.setPower(0.0);
+        }
+        else if (raise > 0.0) {
+            liftMotor.setPower(raise);
+        }
+        else if (bottomLimit.isPressed() && lower > 0.0) {
             liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             liftMotor.setPower(0.0);
             //closeMailbox();
         }
-        else if (power > 0.0 && getLiftMotorPos() > encoderTopLimit) {
-            liftMotor.setPower(0.0);
-        } else if (mailboxOpen && power != 0.0) {
-            closeMailbox();
-        } else {
-            liftMotor.setPower(power);
+        else if (lower > 0.0) {
+            liftMotor.setPower(-lower);
         }
+//        else {
+//            liftMotor.setPower(power);
+//        }
     }
 
     // This function controls the trapdoor.
