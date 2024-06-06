@@ -331,9 +331,9 @@ public class Centerstage_AutoRed_CloseStart extends LinearOpMode {
     }
 
     private void lowerMailbox() {
-        gobbler.outtake.driveLift(0.5);
+        gobbler.outtake.driveLift(0.0, 0.5);
         gobbler.driveTrain.Wait(1.0);
-        gobbler.outtake.driveLift(0.0);
+        gobbler.outtake.driveLift(0.0, 0.0);
         gobbler.driveTrain.Wait(2);
     }
 
@@ -446,9 +446,9 @@ public class Centerstage_AutoRed_CloseStart extends LinearOpMode {
     private void PlacePixelOnTape() {
         gobbler.outtake.trapdoor(true, trapdoorToggle);
         gobbler.driveTrain.Wait(0.6);
-        gobbler.outtake.driveLift(-0.5);
+        gobbler.outtake.driveLift(0.5, 0.0);
         gobbler.driveTrain.Wait(0.6);
-        gobbler.outtake.driveLift(0.0);
+        gobbler.outtake.driveLift(0.0, 0.0);
         gobbler.driveTrain.Wait(0.8);
         gobbler.outtake.trapdoor(true, trapdoorToggle);
     }
