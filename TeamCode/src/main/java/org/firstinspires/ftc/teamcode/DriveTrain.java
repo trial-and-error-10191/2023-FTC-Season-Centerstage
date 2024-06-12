@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.opencv.core.Core;
 
 /** @noinspection ALL*/
 public class DriveTrain {
 
+    private double maxSpeed = 1;
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
 
     private int lfPos, rfPos, lrPos, rrPos;
@@ -151,6 +153,23 @@ public class DriveTrain {
 
     }
 
+    public void ajustMaxSpeed (boolean faster, boolean slower) {
+        if (faster == true && slower == true) {
+
+        }
+        else if (faster == true) {
+            maxSpeed = maxSpeed + 0.2;
+            if (maxSpeed > 1) {
+                maxSpeed = 1;
+            }
+        }
+        else if (slower == true) {
+            maxSpeed = maxSpeed - 0.2;
+            if (maxSpeed < 0) {
+                maxSpeed = 0;
+            }
+        }
+    }
     public void driveAutonomously(double axial, double lateral, double yaw) {
 
         double leftFrontPower = 0;
