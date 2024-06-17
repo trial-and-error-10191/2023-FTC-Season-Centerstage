@@ -15,6 +15,7 @@ public class DriveTrain {
 
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
 
+    private double maxSpeed = 1;
     private int lfPos, rfPos, lrPos, rrPos;
 
     static final double COUNTS_PER_MOTOR_REV = 537.7;
@@ -151,6 +152,9 @@ public class DriveTrain {
 
     }
 
+    public void ajustMaxSpeed (boolean faster, boolean slower) {
+        if ()
+    }
     public void driveAutonomously(double axial, double lateral, double yaw) {
 
         double leftFrontPower = 0;

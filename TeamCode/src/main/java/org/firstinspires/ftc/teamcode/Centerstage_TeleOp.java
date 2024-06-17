@@ -57,6 +57,9 @@ public class Centerstage_TeleOp extends LinearOpMode {
             gobbler.intake.reverseIntake(gamepad1.right_stick_button, intakeDirectionToggle);
             gobbler.intake.driveIntake(gamepad1.a, intakeToggleTime);
 
+            // This decreases and increases the robot's speed
+            gobbler.driveTrain.(gamepad1.dpad_left, gamepad1.dpad_right);
+
             // This controls the drive train using three double input methods.
             // The fourth input is a boolean for the direction toggle.
             // The last input is the time the function uses to space out inputs for the direction switch.
