@@ -14,7 +14,7 @@ import org.opencv.core.Core;
 /** @noinspection ALL*/
 public class DriveTrain {
 
-    private double maxSpeed = 1;
+    private double maxSpeed = 0.5;
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
 
     private int lfPos, rfPos, lrPos, rrPos;
@@ -127,6 +127,8 @@ public class DriveTrain {
             rightBackPower /= max;
         }
 
+        sensitivity = maxSpeed;
+
         // Calculates power using sensitivity variable.
         leftFrontPower *= sensitivity;
         leftBackPower *= sensitivity;
@@ -144,7 +146,7 @@ public class DriveTrain {
             time.reset();
         }
 
-        // The next eleven lines gives the calculated power to each motor.
+        // The next four lines gives the calculated power to each motor.
 
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -153,7 +155,7 @@ public class DriveTrain {
 
     }
 
-    public void ajustMaxSpeed (boolean faster, boolean slower) {
+    public void adjustMaxSpeed (boolean faster, boolean slower) {
         if (faster == true && slower == true) {
 
         }
