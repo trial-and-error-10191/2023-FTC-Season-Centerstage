@@ -9,13 +9,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+//import org.opencv.core.Core;
 
 /** @noinspection ALL*/
 public class DriveTrain {
 
+    private double maxSpeed = 0.5;
     DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive;
 
-    private double maxSpeed = 1;
     private int lfPos, rfPos, lrPos, rrPos;
 
     static final double COUNTS_PER_MOTOR_REV = 537.7;
@@ -126,6 +127,8 @@ public class DriveTrain {
             rightBackPower /= max;
         }
 
+        sensitivity = maxSpeed;
+
         // Calculates power using sensitivity variable.
         leftFrontPower *= sensitivity;
         leftBackPower *= sensitivity;
@@ -143,7 +146,7 @@ public class DriveTrain {
             time.reset();
         }
 
-        // The next eleven lines gives the calculated power to each motor.
+        // The next four lines gives the calculated power to each motor.
 
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -152,8 +155,22 @@ public class DriveTrain {
 
     }
 
-    public void ajustMaxSpeed (boolean faster, boolean slower) {
-        if ()
+    public void adjustMaxSpeed (boolean faster, boolean slower) {
+        if (faster == true && slower == true) {
+
+        }
+        else if (faster == true) {
+            maxSpeed = maxSpeed + 0.2;
+            if (maxSpeed > 1) {
+                maxSpeed = 1;
+            }
+        }
+        else if (slower == true) {
+            maxSpeed = maxSpeed - 0.2;
+            if (maxSpeed < 0) {
+                maxSpeed = 0;
+            }
+        }
     }
     public void driveAutonomously(double axial, double lateral, double yaw) {
 
