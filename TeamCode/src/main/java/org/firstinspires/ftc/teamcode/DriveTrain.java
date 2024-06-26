@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.opencv.core.Core;
+//import org.opencv.core.Core;
 
 /** @noinspection ALL*/
 public class DriveTrain {
