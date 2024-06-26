@@ -92,6 +92,8 @@ public class Centerstage_TeleOp extends LinearOpMode {
                    gobbler.outtake.getMailboxStatus());
             telemetry.addData("Drone Status",
                     String.valueOf(gobbler.planeHang.droneToggle));
+            telemetry.addData("Max Drive Speed", "%4.2f",
+                    gobbler.driveTrain.GitClassSpeed());
 //            telemetry.addData("Distance Sensors (Left, Right)", "%4.2f, %4.2f",
 //                    gobbler.driveTrain.getDistanceLeftValue(),
 //                    gobbler.driveTrain.getDistanceRightValue());

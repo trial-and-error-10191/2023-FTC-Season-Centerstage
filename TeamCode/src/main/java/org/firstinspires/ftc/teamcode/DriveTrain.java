@@ -833,4 +833,7 @@ public class DriveTrain {
             // this statement is supposed to be empty.
         }
     }
+    public double GitClassSpeed () {
+        return maxSpeed;
+    }
 }
