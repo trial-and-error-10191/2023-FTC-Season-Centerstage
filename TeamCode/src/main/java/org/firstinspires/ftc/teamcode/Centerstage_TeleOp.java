@@ -21,6 +21,7 @@ public class Centerstage_TeleOp extends LinearOpMode {
         ElapsedTime trapToggleTime = new ElapsedTime();
         ElapsedTime directionToggleTime = new ElapsedTime();
         ElapsedTime hangServoTime = new ElapsedTime();
+        ElapsedTime speedTime = new ElapsedTime();
         ElapsedTime intakeDirectionToggle = new ElapsedTime();
 
         gobbler.outtake.closeMailbox();
@@ -58,7 +59,7 @@ public class Centerstage_TeleOp extends LinearOpMode {
             gobbler.intake.driveIntake(gamepad1.a, intakeToggleTime);
 
             // This adjusts the speed of the robot
-            gobbler.driveTrain.adjustMaxSpeed(gamepad1.dpad_right, gamepad1.dpad_left);
+            gobbler.driveTrain.adjustMaxSpeed(gamepad1.dpad_right, gamepad1.dpad_left, speedTime);
 
             // This controls the drive train using three double input methods.
             // The fourth input is a boolean for the direction toggle.
@@ -92,6 +93,8 @@ public class Centerstage_TeleOp extends LinearOpMode {
                    gobbler.outtake.getMailboxStatus());
             telemetry.addData("Drone Status",
                     String.valueOf(gobbler.planeHang.droneToggle));
+            telemetry.addData("Speed Value",
+                    String.valueOf(gobbler.driveTrain.gitMaxSpeed()));
 //            telemetry.addData("Distance Sensors (Left, Right)", "%4.2f, %4.2f",
 //                    gobbler.driveTrain.getDistanceLeftValue(),
 //                    gobbler.driveTrain.getDistanceRightValue());

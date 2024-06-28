@@ -59,6 +59,9 @@ public class DriveTrain {
 
     }
 
+    public double gitMaxSpeed() {
+        return maxSpeed;
+    }
 
     // This function needs an axial, lateral, and yaw input. It uses this input to drive the drive train motors.
     // The last two variables are for direction switching.
@@ -155,20 +158,26 @@ public class DriveTrain {
 
     }
 
-    public void adjustMaxSpeed (boolean faster, boolean slower) {
+    public void adjustMaxSpeed (boolean faster, boolean slower, ElapsedTime speedTime) {
         if (faster == true && slower == true) {
 
         }
         else if (faster == true) {
-            maxSpeed = maxSpeed + 0.2;
-            if (maxSpeed > 1) {
-                maxSpeed = 1;
+            if (speedTime.time() > 2) {
+                maxSpeed += 0.2;
+                speedTime.reset();
+                if (maxSpeed > 1) {
+                    maxSpeed = 1;
+                }
             }
         }
         else if (slower == true) {
-            maxSpeed = maxSpeed - 0.2;
-            if (maxSpeed < 0) {
-                maxSpeed = 0;
+            if (speedTime.time() > 2) {
+                maxSpeed -= 0.2;
+                speedTime.reset();
+                if (maxSpeed < 0) {
+                    maxSpeed = 0;
+                }
             }
         }
     }
